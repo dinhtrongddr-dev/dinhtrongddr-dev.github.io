@@ -9,7 +9,7 @@
   // device id kept on this stable address → the app stores this device's watchlist on the server under it
   var cid = null; try { cid = localStorage.getItem("mi.cid"); } catch (e) {}
   if (!cid || !/^[a-z0-9]{16,40}$/.test(cid)) { var a = new Uint8Array(12); crypto.getRandomValues(a); cid = Array.prototype.map.call(a, function (b) { return b.toString(36).padStart(2, "0"); }).join("").slice(0, 24); try { localStorage.setItem("mi.cid", cid); } catch (e) {} }
-  function go(u){ var t = u.replace(//$/, "") + "/?cid=" + cid + location.hash; document.getElementById("go").href = t; location.replace(t); }
+  function go(u){ var t = u.replace(/[/]+$/, "") + "/?cid=" + cid + location.hash; document.getElementById("go").href = t; location.replace(t); }
   fetch("link.json?t=" + Date.now(), { cache: "no-store" }).then(function(r){ return r.json(); })
     .then(function(j){ go(j.url || fallback); }).catch(function(){ go(fallback); });
 })();
